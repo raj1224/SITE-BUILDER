@@ -2,6 +2,8 @@ import React, { useState,useEffect } from 'react'
 import type {Project}  from '../types';
 import { Loader2Icon, PlusIcon, TrashIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import Footer from '../components/Footer';
+import { dummyProjects } from '../assets/assets';
 
 const MyProjects = () => {
   const [loading, setLoading] = useState(true);
@@ -9,10 +11,14 @@ const MyProjects = () => {
   const navigate = useNavigate()
 
   const fetchProjects=async()=>{
+    setProjects(dummyProjects)
     // Simulate Loading
     setTimeout(()=>{
       setLoading(false)
-    })
+    },1000)
+  }
+  const deleteProject=async(projectId:string)=>{
+    
   }
   useEffect(()=>{
     fetchProjects()
@@ -81,12 +87,13 @@ const MyProjects = () => {
       ):(
         <div className='flex flex-col items-center justify-center h-[80vh]'>
           <h1 className='text-3xl font-semibold text-gray-300'>You have no projects yet!</h1>
-          <button onClick={()=>Navigate('/')} className='text-white px-5 py-2 mt-5 rounded-md bg-indigo-500 hover:bg-indigo-600 active:scale-95 transition-all'>
+          <button onClick={()=>navigate('/')} className='text-white px-5 py-2 mt-5 rounded-md bg-indigo-500 hover:bg-indigo-600 active:scale-95 transition-all'>
             Create New
           </button>
         </div>
       )}
     </div>
+    <Footer/>
    </>
   )
 
