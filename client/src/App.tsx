@@ -8,10 +8,14 @@ import Preview from './pages/Preview'
 import Community from './pages/Community'
 import { View } from 'lucide-react'
 import Navbar from './components/Navbar'
+import {Toaster,toast} from 'sonner'
+import AuthPage from './pages/auth/AuthPage'
+import Setting from './pages/Setting'
 
 const App = () => {
   return (
     <div>
+      <Toaster/>
       <Navbar/>
       <Routes>
         <Route path='/' element={<Home/>}/>
@@ -22,6 +26,8 @@ const App = () => {
         <Route path='/preview/:projectId/:versionId' element={<Preview/>}/>
         <Route path='/community' element={<Community/>}/>
         <Route path='/view/:projectId' element={<View/>}/>
+        <Route path="/auth/:pathname" element={<AuthPage />} />
+        <Route path="/account/settings" element={<Setting />} />
       </Routes>
     </div>
   )
