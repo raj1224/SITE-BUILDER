@@ -1,5 +1,6 @@
 import React from 'react'
 import Footer from '../components/Footer';
+import { appPlans } from '@/assets/assets';
 
 interface Plan{
   id:string;
