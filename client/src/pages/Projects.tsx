@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   FullscreenIcon,
   LaptopIcon,
@@ -16,6 +16,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { dummyConversations, dummyProjects, dummyVersion } from '../assets/assets';
 import type { Project } from '../types'; // ✅ FIX
 import Sidebar from '@/components/Sidebar';
+import ProjectPreview, {type ProjectPreviewRef } from '@/components/ProjectPreview';
 
 const Projects = () => {
   const { projectId } = useParams();
@@ -31,6 +32,8 @@ const Projects = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+
+  const previewRef=useRef<ProjectPreviewRef>(null)
 
   const fetchProject = async () => {
     const project = dummyProjects.find((p) => p.id === projectId);
@@ -148,7 +151,9 @@ const Projects = () => {
         <Sidebar isMenuOpen={isMenuOpen} project={project} setProject={(p)=>setProject(p)} isGenerating={isGenerating} setIsGenerating={setIsGenerating}/>
 
         <div className='flex-1 p-2 pl-0'>
-          project preview
+          <ProjectPreview ref={previewRef} project={project} isGenerating={isGenerating}
+          device={device}
+          />
         </div>
       </div>
     </div>
