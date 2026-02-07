@@ -11,13 +11,21 @@ const View = () => {
   const [loading,setLoading]=useState(true)
 
   const fetchCode=async()=>{
-    const code=dummyProjects.find(project=>project.id===projectId)?.current_code;
-    setTimeout(()=>{
-      if(code){
-        setCode(code);
-        setLoading(false)
-      }
-    },2000)
+    // const code=dummyProjects.find(project=>project.id===projectId)?.current_code;
+    // setTimeout(()=>{
+    //   if(code){
+    //     setCode(code);
+    //     setLoading(false)
+    //   }
+    // },2000)
+     try {
+      const {data}=await api.get(`/api/project/published/${projectId}`);
+      setCode(data.code)
+      setLoading(false);
+    } catch (error:any) {
+      console.log(error)
+      toast.error(error?.response?.data?.message || error.message)
+    }
   }
 
   useEffect(()=>{

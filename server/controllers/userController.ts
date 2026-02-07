@@ -68,7 +68,7 @@ export const createUserProject = async (req: Request,res:Response) => {
 
         // Enhance user prompt
         const proptEnhanceResponse=await openai.chat.completions.create({
-            model:"z-ai/glm-4.5-air:free",
+            model:"kwaipilot/kat-coder-pro:free",
             messages:[
                 {
                     role:'system',
@@ -113,7 +113,7 @@ Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3
         })
         // Generate website code
         const codeGenerationResponse=await openai.chat.completions.create({
-            model:"z-ai/glm-4.5-air:free",
+            model:"kwaipilot/kat-coder-pro:free",
             messages:[
                 {
                     role:'system',
@@ -151,6 +151,20 @@ Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3
             ]
         })
         const code =codeGenerationResponse.choices[0].message.content || '';
+         if(!code){
+            await prisma.conversation.create({
+                data:{
+                    role:'assistant',
+                    content:"Unable to generate the code ,please try again",
+                    projectId
+                }
+            })
+            await prisma.user.update({
+                where:{id:userId},
+                data:{credits:{increment:5}}
+            })
+            return;
+        }
         // create version for the project
         const version = await prisma.projectVersion.create({
             data:{
